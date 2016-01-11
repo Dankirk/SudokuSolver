@@ -1,0 +1,378 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG 0, 0, 235, 55
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About Sudoku"
+FONT 8, "MS Sans Serif"
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "Sudoku Version 1.0",IDC_STATIC,40,10,119,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) Henri Aho 2005",IDC_STATIC,40,25,119,8
+    DEFPUSHBUTTON   "OK",IDOK,178,7,50,14,WS_GROUP
+END
+
+IDD_SUDOKU_DIALOG DIALOGEX 0, 0, 245, 170
+STYLE DS_SETFONT | DS_MODALFRAME | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "Sudoku - By Dankirk"
+MENU IDR_MENU1
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "Solve",IDOK,174,127,58,16
+    PUSHBUTTON      "",IDC_Square1,21,18,14,13
+    PUSHBUTTON      "",IDC_Square2,35,18,14,13
+    PUSHBUTTON      "",IDC_Square3,49,18,14,13
+    PUSHBUTTON      "",IDC_Square4,70,18,14,13
+    PUSHBUTTON      "",IDC_Square5,84,18,14,13
+    PUSHBUTTON      "",IDC_Square6,98,18,14,13
+    PUSHBUTTON      "",IDC_Square7,118,18,14,13
+    PUSHBUTTON      "",IDC_Square8,132,18,14,13
+    PUSHBUTTON      "",IDC_Square9,146,18,14,13
+    LTEXT           "Square Value",IDC_STATIC,181,13,46,9
+    PUSHBUTTON      "",IDC_Square10,21,32,14,13
+    PUSHBUTTON      "",IDC_Square11,35,32,14,13
+    PUSHBUTTON      "",IDC_Square12,49,32,14,13
+    PUSHBUTTON      "",IDC_Square13,70,32,14,13
+    PUSHBUTTON      "",IDC_Square14,84,32,14,13
+    PUSHBUTTON      "",IDC_Square15,98,32,14,13
+    PUSHBUTTON      "",IDC_Square16,118,32,14,13
+    PUSHBUTTON      "",IDC_Square17,132,32,14,13
+    PUSHBUTTON      "",IDC_Square18,146,32,14,13
+    PUSHBUTTON      "",IDC_Square19,21,46,14,13
+    PUSHBUTTON      "",IDC_Square20,35,46,14,13
+    PUSHBUTTON      "",IDC_Square21,49,46,14,13
+    PUSHBUTTON      "",IDC_Square22,70,46,14,13
+    PUSHBUTTON      "",IDC_Square23,84,46,14,13
+    PUSHBUTTON      "",IDC_Square24,98,46,14,13
+    PUSHBUTTON      "",IDC_Square25,118,46,14,13
+    PUSHBUTTON      "",IDC_Square26,132,46,14,13
+    PUSHBUTTON      "",IDC_Square27,146,46,14,13
+    PUSHBUTTON      "",IDC_Square28,21,65,14,13
+    PUSHBUTTON      "",IDC_Square29,35,65,14,13
+    PUSHBUTTON      "",IDC_Square30,49,65,14,13
+    PUSHBUTTON      "",IDC_Square31,70,65,14,13
+    PUSHBUTTON      "",IDC_Square32,84,65,14,13
+    PUSHBUTTON      "",IDC_Square33,98,65,14,13
+    PUSHBUTTON      "",IDC_Square34,118,65,14,13
+    PUSHBUTTON      "",IDC_Square35,132,65,14,13
+    PUSHBUTTON      "",IDC_Square36,146,65,14,13
+    PUSHBUTTON      "",IDC_Square37,21,79,14,13
+    PUSHBUTTON      "",IDC_Square38,35,79,14,13
+    PUSHBUTTON      "",IDC_Square39,49,79,14,13
+    PUSHBUTTON      "",IDC_Square40,70,79,14,13
+    PUSHBUTTON      "",IDC_Square41,84,79,14,13
+    PUSHBUTTON      "",IDC_Square42,98,79,14,13
+    PUSHBUTTON      "",IDC_Square43,118,79,14,13
+    PUSHBUTTON      "",IDC_Square44,132,79,14,13
+    PUSHBUTTON      "",IDC_Square45,146,79,14,13
+    PUSHBUTTON      "",IDC_Square46,21,92,14,13
+    PUSHBUTTON      "",IDC_Square47,35,92,14,13
+    PUSHBUTTON      "",IDC_Square48,49,92,14,13
+    PUSHBUTTON      "",IDC_Square49,70,92,14,13
+    PUSHBUTTON      "",IDC_Square50,84,92,14,13
+    PUSHBUTTON      "",IDC_Square51,98,92,14,13
+    PUSHBUTTON      "",IDC_Square52,118,92,14,13
+    PUSHBUTTON      "",IDC_Square53,132,92,14,13
+    PUSHBUTTON      "",IDC_Square54,146,92,14,13
+    PUSHBUTTON      "",IDC_Square55,21,114,14,13
+    PUSHBUTTON      "",IDC_Square56,35,114,14,13
+    PUSHBUTTON      "",IDC_Square57,49,114,14,13
+    PUSHBUTTON      "",IDC_Square58,70,114,14,13
+    PUSHBUTTON      "",IDC_Square59,84,114,14,13
+    PUSHBUTTON      "",IDC_Square60,98,114,14,13
+    PUSHBUTTON      "",IDC_Square61,118,114,14,13
+    PUSHBUTTON      "",IDC_Square62,132,114,14,13
+    PUSHBUTTON      "",IDC_Square63,146,114,14,13
+    PUSHBUTTON      "",IDC_Square64,21,128,14,13
+    PUSHBUTTON      "",IDC_Square65,35,128,14,13
+    PUSHBUTTON      "",IDC_Square66,49,128,14,13
+    PUSHBUTTON      "",IDC_Square67,70,128,14,13
+    PUSHBUTTON      "",IDC_Square68,84,128,14,13
+    PUSHBUTTON      "",IDC_Square69,98,128,14,13
+    PUSHBUTTON      "",IDC_Square70,118,128,14,13
+    PUSHBUTTON      "",IDC_Square71,132,128,14,13
+    PUSHBUTTON      "",IDC_Square72,146,128,14,13
+    PUSHBUTTON      "",IDC_Square73,21,142,14,13
+    PUSHBUTTON      "",IDC_Square74,35,142,14,13
+    PUSHBUTTON      "",IDC_Square75,49,142,14,13
+    PUSHBUTTON      "",IDC_Square76,70,142,14,13
+    PUSHBUTTON      "",IDC_Square77,84,142,14,13
+    PUSHBUTTON      "",IDC_Square78,98,142,14,13
+    PUSHBUTTON      "",IDC_Square79,118,142,14,13
+    PUSHBUTTON      "",IDC_Square80,132,142,14,13
+    PUSHBUTTON      "",IDC_Square81,146,142,14,13
+    GROUPBOX        "",IDC_STATIC,7,7,161,156
+    PUSHBUTTON      "Load Last",IDC_LoadLast,174,95,58,16
+    CONTROL         "1",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE,180,23,16,14
+    CONTROL         "2",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE,197,23,16,14
+    CONTROL         "3",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE,214,23,16,14
+    CONTROL         "4",IDC_RADIO4,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE,180,38,16,14
+    CONTROL         "5",IDC_RADIO5,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE,197,38,16,14
+    CONTROL         "6",IDC_RADIO6,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE,214,38,16,14
+    CONTROL         "7",IDC_RADIO7,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE,180,53,16,14
+    CONTROL         "8",IDC_RADIO8,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE,197,53,16,14
+    CONTROL         "9",IDC_RADIO9,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE,214,53,16,14
+    CONTROL         "0",IDC_RADIO0,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE,197,67,16,14
+    PUSHBUTTON      "Check",IDC_Check,174,111,58,16
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "FileDescription", "Sudoku MFC Application"
+            VALUE "FileVersion", "1, 0, 0, 1"
+            VALUE "InternalName", "Sudoku"
+            VALUE "LegalCopyright", "Copyright (C) Henri Aho 2005"
+            VALUE "OriginalFilename", "Sudoku.EXE"
+            VALUE "ProductName", "Sudoku Application"
+            VALUE "ProductVersion", "1, 0, 0, 1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+
+    IDD_SUDOKU_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 238
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 163
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_ABOUTBOX            "&About Sudoku..."
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Finnish (Finland) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_FIN)
+LANGUAGE LANG_FINNISH, SUBLANG_DEFAULT
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_SAVEANDLOAD DIALOGEX 0, 0, 270, 63
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Sudoku - Save / Load"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    LTEXT           "Path",IDC_STATIC,21,17,19,8
+    PUSHBUTTON      "Save",IDC_SAVE,209,7,54,24
+    DEFPUSHBUTTON   "Load",IDC_LOAD,209,32,54,24
+    COMBOBOX        IDC_COMBO,21,27,169,55,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_SETTINGS DIALOGEX 0, 0, 197, 99
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Sudoku - Settings"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,102,70,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,40,71,50,14
+    LTEXT           "Define size of Sudoku table (default is 3x3)",IDC_STATIC,30,17,145,8
+    EDITTEXT        IDC_TABLESIZE,49,36,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_TABLESIZE2,104,36,40,14,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "X",IDC_STATIC,95,39,8,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_SAVEANDLOAD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 263
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 56
+    END
+
+    IDD_SETTINGS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 190
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 92
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\Sudoku.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\Sudoku.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MENU1 MENU
+BEGIN
+    POPUP "File"
+    BEGIN
+        MENUITEM "Clear Table",                 ID_FILE_CLEAR
+        MENUITEM "Save / Load",                 ID_FILE_SAVELOAD
+        MENUITEM "Settings",                    ID_FILE_SETTINGS
+        MENUITEM "Easy Mode",                   ID_FILE_EASYMODE
+        MENUITEM "Help",                        ID_FILE_HELP
+        MENUITEM "Exit",                        ID_FILE_EXIT
+    END
+END
+
+#endif    // Finnish (Finland) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif //_WIN32
+#include "res\Sudoku.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
