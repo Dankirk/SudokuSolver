@@ -17,7 +17,6 @@ Thumbs.db
 *.cache
 *.ilk
 *.log
-*.sdf
 [Bb]in
 [Dd]ebug*/
 *.lib
@@ -29,3 +28,4 @@ _ReSharper*/
 *.vssscc
 $tf*/
 Sudoku.opensdf
+*.sdf
