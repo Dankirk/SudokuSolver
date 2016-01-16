@@ -2,21 +2,17 @@ class Set;	// pre-declare
 
 class Square {
 
-	private:
+	protected:
 		bool canHave[MAX];
 		Set* hLine;
 		Set* vLine;
 		Set* bigSquare;
 		int id;
 		int assignedNumber;
-		bool init;
 
 	public:
-		Square();
-		//Square(Square* square);
-		Square(int squareID);
-		Square(int squareID, int number);
-		void Init();
+		Square(int squareID = 0);
+		void Reset();
 		void PlaceNum(int number);
 		bool CanHave(int number);
 		void CanHaveList(int (&list)[MAX]);
@@ -32,6 +28,6 @@ class Square {
 		void LinkVLine(Set* verLine);
 		void LinkHLine(Set* horLine);
 		void LinkBigSquare(Set* theBigSquare);
-		
+
 		static void (*onBlockCallback)(int id, int number);
 };

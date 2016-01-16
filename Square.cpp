@@ -2,41 +2,23 @@
 
 void (*Square::onBlockCallback)(int id, int number) = NULL;
 
-Square::Square() {
-	init = false;
-}
-
 Square::Square(int squareID) {
-	Square(squareID,0);
+
+	id = squareID;
+	Reset();
 }
 
-Square::Square(int squareID, int number) {
+void Square::Reset() {
 
-	init = false;
-	id = squareID;
-	assignedNumber = number;
+	assignedNumber = 0;
 
 	for (int i = 0; i < MAX; i++)
 		canHave[i] = true;
 }
 
-
-void Square::Init() {
-
-	if (vLine != NULL && hLine != NULL && bigSquare != NULL) {
-
-		// muut funktiot käytettäväksi
-		init = true;
-
-		PlaceNum(assignedNumber);
-	}
-	else
-		MessageBox(NULL,"Error in Square::Init()","Sudoku",MB_OK);
-}
-
 void Square::PlaceNum(int number) {
 
-	if (init && number > 0 && number <= MAX) {
+	if (number > 0 && number <= MAX) {
 
 		assignedNumber = number;
 

@@ -40,12 +40,12 @@ public:
 // Implementation
 protected:
 	HICON m_hIcon;
+	Solver solver;
 
-	int GetSquareIdFromRegion(int id, int squarenum);
-	bool FindNakedSetRecursive(Set* set, vector<int>* used_numbers, Set* used_squares, Square* square);
 	bool CheckBoard();
 	void EasyMode(bool forcereset = false);
 	void Solve(bool easyMode = false);
+	vector<int> GetBoardState();
 
 	// Generated message map functions
 	//{{AFX_MSG(CSudokuDlg)
@@ -161,6 +161,7 @@ protected:
 
 static CSudokuDlg* dlg = NULL;
 void BlockCallback(int id, int number);
+void DrawNumCallback(int id, int number);
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
