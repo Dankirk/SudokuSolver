@@ -1,6 +1,6 @@
 # SudokuSolver
 A tool for solving Sudoku puzzles with algorithms, no bruteforcing. 
-Written in C++ with Microsoft Visual Studio 2010.
+Written in C++ with Microsoft Visual Studio 2017.
 
 
 # Algorithms included
