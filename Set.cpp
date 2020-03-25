@@ -51,7 +51,7 @@ int Set::Filled() {
 	return filled;
 }
 
-// Vertaa löytyykö seteistä samat ruudut
+// Locations match if all squares are also in toBeCompared set
 bool Set::LocationsMatch(Set* toBeCompared) {
 
 	if (toBeCompared == NULL) {
@@ -70,8 +70,7 @@ bool Set::LocationsMatch(Set* toBeCompared) {
 	return false;
 }
 
-// Vertaa onko parametrinä annetulla setillä kaikki samat ruudut kuin
-// kutsuja setillä.
+// Locations overlap if a square is also in toBeCompared set
 bool Set::LocationsOverlap(Set* toBeCompared) {
 
 	if (toBeCompared == NULL || toBeCompared == this) {
@@ -158,7 +157,6 @@ bool Set::LocationsLine(Set* toBeCompared, bool HLine) {
 	return false;
 }
 
-// 
 bool Set::BlockAllExcluding(bool* matches) {
 
 	bool makesDifference = false;
@@ -184,23 +182,14 @@ bool Set::BlockAllExcluding(Set* set, int number) {
 
 	for (int i = 0; i < filled; i++) {
 
-		// Blockataan vain ruudut, jotka eivät ole osana mahdollisuuksia
-		bool needsBlocking = true;
-
-		for (int y = 0; y < set->Filled(); y++) {
-			if (squares[i] == set->GetSquare(y)) {
-				needsBlocking = false;
-				break;
-			}
-		}
-		if (needsBlocking)
+		if (!set->HasSquare(squares[i]))
 			makesDifference = squares[i]->Block(number) || makesDifference;
 	}
 
 	return makesDifference;
 }
 
-bool Set::BlockAllOthers(bool* matches, Set* set) {
+bool Set::BlockAllOthers(bool* number_matches, Set* set) {
 
 	if (set == NULL || set == this) {
 		MessageBox(NULL,"Error in Set::BlockAllOthers()","Sudoku",MB_OK);
@@ -211,18 +200,12 @@ bool Set::BlockAllOthers(bool* matches, Set* set) {
 
 	for (int i = 0 ; i < set->Filled(); i++) {
 
-		bool needsBlocking = true;
-		for (int y = 0; y < filled; y++) {
-			if (set->GetSquare(i) == squares[y]) {
-				needsBlocking = false;
-				break;
-			}
-		}
+		Square* square = set->GetSquare(i);
 
-		if (needsBlocking) {
+		if (!this->HasSquare(square)) {
 			for (int y = 0 ; y < MAX; y++) {
-				if (matches[y])
-					makesDifference = set->GetSquare(i)->Block(y+1) || makesDifference;
+				if (number_matches[y])
+					makesDifference = square->Block(y+1) || makesDifference;
 			}
 		}
 	}
@@ -230,7 +213,7 @@ bool Set::BlockAllOthers(bool* matches, Set* set) {
 	return makesDifference;
 }
 
-// Tarkista onko setissä samoja numeroita useassa eri kohdassa
+// Check if a number appears more than once in the set
 bool Set::HasDuplicates() {
 
 	for (int i = 0; i < filled; i++) {
@@ -247,10 +230,9 @@ bool Set::HasDuplicates() {
 
 bool Set::HasSquare(Square* square) {
 
-	if (square != NULL) {
-		for (int i = 0; i < filled; i++)
-			if (squares[i] == square)
-				return true;
+	for (int i = 0; i < filled; i++) {
+		if (squares[i] == square)
+			return true;
 	}
 
 	return false;

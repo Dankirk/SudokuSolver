@@ -42,7 +42,6 @@ protected:
 	HICON m_hIcon;
 	Solver solver;
 
-	bool CheckBoard();
 	void EasyMode(bool forcereset = false);
 	void Solve(bool easyMode = false);
 	vector<int> GetBoardState();

@@ -77,7 +77,7 @@ void Solver::UpdateBoard(vector<int>* board) {
 
 bool Solver::BoardHasDuplicates() {
 
-	// Tarkista onko mill‰‰n setill‰ duplicaatteja
+	// Check for duplicate numbers in the sets
 	for (int i = 0; i < MAX*3; i++) {
 		if (sets[i].HasDuplicates()) {
 			return true;
@@ -107,7 +107,7 @@ void Solver::Solve(bool easyMode) {
 }
 
 /*	
-    Pienien laatikoiden numerotaulukko
+    Indexes for each small square
 	+----------+----------+----------+
 	| 0  1  2  | 3  4  5  | 6  7  8  |
 	| 9  10 11 | 12 13 14 | 15 16 17 |
@@ -123,7 +123,7 @@ void Solver::Solve(bool easyMode) {
 	+----------+----------+----------+
 
 
-	Isojen laatikoiden numerotaulukko
+	Indexes for bigger square sets
 	+----------+----------+----------+
 	|          |          |          |
 	|    0     |    1     |    2     |
@@ -145,7 +145,7 @@ void Solver::Solve(bool easyMode) {
 
 /////////////////////////////
 // "Single possibility in square"
-// Jos ruudulla vain yksi mahdollinen numero, laita numero siihen
+// If only one number fits in the square, put it there
 ////////////////////////////
 bool Solver::SinglePossibilityInSquare() {
 
@@ -177,7 +177,7 @@ bool Solver::SinglePossibilityInSquare() {
 
 /////////////////////////////
 // "Single possibility in set"
-// Jos numerolla vain yksi mahdollinen paikka setiss‰, laita numero siihen
+// If a number can only be in one square of a set, put it there
 ////////////////////////////
 bool Solver::SinglePossibilityInSet() {
 
@@ -187,16 +187,15 @@ bool Solver::SinglePossibilityInSet() {
 	for (int number = 1; number <= MAX; number++) {
 		for (int set = 0; set < MAX*3; set++) {
 
-			// Hae setiss‰ olevat mahdollisuudet numerolle
-			Set mahdollisuudet = sets[set].GetPossibilitiesFor(number);
+			Set possibilities = sets[set].GetPossibilitiesFor(number);
 
 			if (!easyMode) {
-				if (mahdollisuudet.Filled() == 1) {
-					mahdollisuudet.GetSquare(0)->PlaceNum(number);
+				if (possibilities.Filled() == 1) {
+					possibilities.GetSquare(0)->PlaceNum(number);
 					update = true;
 
 					if (drawNumCallback != NULL)
-						(*drawNumCallback)(mahdollisuudet.GetSquare(0)->GetID(), number);	
+						(*drawNumCallback)(possibilities.GetSquare(0)->GetID(), number);
 				}
 			}
 		}
@@ -206,40 +205,38 @@ bool Solver::SinglePossibilityInSet() {
 
 //////////////////////////////
 // "Subgroup exclusion"
-// Jos isossa laatikossa olevat kaikki mahdolliset paikat ovat samassa vaaka- tai pystyriviss‰,
-// est‰ ko. numeroiden asettaminen ko. riville muissa isoissa ruuduissa	
-//    JA
-// Jos samalla vaaka- tai pystyrivill‰ olevat mahdollisuudet ovat kaikki samassa isossa laatikossa,
-// est‰ ko. numeroiden asettaminen ko. ison laatikon muihin kohtiin.
+// If all possibilities for a number in a big square are in the same horizontal or vertical line,
+// remove the possibility from the horizontal and vertical lines outside the big square
+//    AND
+// If all the possibilities for a number on a vertical or horizontal line are in the same big square,
+// remove the possibility from other squares in that big square
 //////////////////////////////
 bool Solver::SubgroupExclusion() {
 
 	for (int number = 1; number <= MAX; number++) {
 		for (int set = 0; set < MAX*3; set++) {
 			
-			// Hae setiss‰ olevat mahdollisuudet numerolle
-			Set mahdollisuudet = sets[set].GetPossibilitiesFor(number);
+			Set possibilities = sets[set].GetPossibilitiesFor(number);
 
-			if (mahdollisuudet.Filled() > 1 && mahdollisuudet.Filled() <= max) {
+			if (possibilities.Filled() > 1 && possibilities.Filled() <= max) {
 					
-				// K‰sitelt‰v‰n‰ iso ruutu
+				// Processing big square
 				if (set < MAX*2) {
 
-					// Varmista ett‰ kaikki mahdollisuudet ovat ison ruudun sis‰ll‰
-					if ( mahdollisuudet.LocationsOverlap( mahdollisuudet.GetSquare(0)->BigSquare() ) )
+					// Confirm all possibilities are in a big sqare
+					if (possibilities.LocationsOverlap(possibilities.GetSquare(0)->BigSquare() ) )
 
-						// Blockaa ruutuja
-						update = mahdollisuudet.GetSquare(0)->BigSquare()->BlockAllExcluding(&mahdollisuudet,number) || update;	
+						update = possibilities.GetSquare(0)->BigSquare()->BlockAllExcluding(&possibilities,number) || update;
 				}
 
-				// K‰sitelt‰v‰ vaaka- tai pystyrivi
+				// Processing horizontal or vertical line
 				else if (set >= MAX*2) {
 
-					if ( mahdollisuudet.LocationsOverlap( mahdollisuudet.GetSquare(0)->HLine() ) )
-						update = mahdollisuudet.GetSquare(0)->HLine()->BlockAllExcluding( mahdollisuudet.GetSquare(0)->BigSquare(), number ) || update;
+					if (possibilities.LocationsOverlap(possibilities.GetSquare(0)->HLine() ) )
+						update = possibilities.GetSquare(0)->HLine()->BlockAllExcluding(possibilities.GetSquare(0)->BigSquare(), number ) || update;
 
-					else if ( mahdollisuudet.LocationsOverlap( mahdollisuudet.GetSquare(0)->VLine() ) )
-						update = mahdollisuudet.GetSquare(0)->VLine()->BlockAllExcluding( mahdollisuudet.GetSquare(0)->BigSquare(), number ) || update;
+					else if (possibilities.LocationsOverlap(possibilities.GetSquare(0)->VLine() ) )
+						update = possibilities.GetSquare(0)->VLine()->BlockAllExcluding(possibilities.GetSquare(0)->BigSquare(), number ) || update;
 				}
 			}
 		}
@@ -325,15 +322,15 @@ bool Solver::HiddenAndNakedTwinExclusion() {
 
 	for (int set = 0; set < MAX*3; set++) {
 
-		// Hae kaikkien numeroiden mahdollisuudet setiss‰
-		Set mahdollisuudet[MAX];
+		// Get possibilities for each number in the set
+		Set possibilities[MAX];
 		for (int number = 1; number <= MAX; number++)
-			mahdollisuudet[number-1] = sets[set].GetPossibilitiesFor(number);
+			possibilities[number-1] = sets[set].GetPossibilitiesFor(number);
 				
 				
 		for (int number1 = 0; number1 < MAX; number1++) {
 
-			// Hae t‰sm‰‰v‰t ja p‰‰llekk‰iset numero kanditaatit
+			// Get matching and overlapping number candidates
 			int matched = 1;
 			bool matches[MAX];
 			matches[number1] = true;
@@ -344,14 +341,14 @@ bool Solver::HiddenAndNakedTwinExclusion() {
 
 			for (int number2 = 0; number2 < MAX; number2++) {
 				if (number1 != number2) {
-					if ( mahdollisuudet[number1].LocationsMatch( &mahdollisuudet[number2] ) ) {
+					if (possibilities[number1].LocationsMatch( &possibilities[number2] ) ) {
 						matches[number2] = true;
 						matched++;
 					}
 					else
 						matches[number2] = false;
 
-					if ( mahdollisuudet[number1].LocationsOverlap( &mahdollisuudet[number2] ) ) {
+					if (possibilities[number1].LocationsOverlap( &possibilities[number2] ) ) {
 						overlaps[number2] = true;
 						overlapped++;
 					}
@@ -361,23 +358,25 @@ bool Solver::HiddenAndNakedTwinExclusion() {
 				}
 			}
 
-			// Mik‰li edell‰ mainittuja kanditaatteja lˆytyi, blockataan siihen kuultumattomat
-			if (matched > 1 && matched == mahdollisuudet[number1].Filled()) {
-				update = mahdollisuudet[number1].BlockAllExcluding(matches) || update;
+			// If matching candidates were found, block all but the candidates themselves
+			if (matched > 1 && matched == possibilities[number1].Filled()) {
+				update = possibilities[number1].BlockAllExcluding(matches) || update;
 			}
 
-			if (overlapped > 1 && overlapped == mahdollisuudet[number1].Filled()) {
+			// See if overlapping candidates are the only possibilities in their respcctive squares
+			// If so, block the candidates from other related sets
+			if (overlapped > 1 && overlapped == possibilities[number1].Filled()) {
 
 				bool noOthers = true;
 
 				for (int i = 0; i < overlapped; i++) {
-					if ( mahdollisuudet[number1].GetSquare(i)->CanHaveCount() != overlapped) {
+					if (possibilities[number1].GetSquare(i)->CanHaveCount() != overlapped) {
 						noOthers =  false;
 						break;
 					}
 				}
 				if (noOthers)
-					update = mahdollisuudet[number1].BlockAllOthers(overlaps,&sets[set]) || update;
+					update = possibilities[number1].BlockAllOthers(overlaps,&sets[set]) || update;
 			}
 		}
 	}
@@ -393,19 +392,17 @@ bool Solver::XWingAndSwordfish() {
 
 	for (int number = 1; number <= MAX; number++) {
 
-		// K‰yd‰‰n l‰pi vain vaaka- ja pystyriveille (ei isoille neliˆille)
+		// Only horizontal and vertical lines need to be checked (not the big squares)
 		for (int i = 0; i <= 1; i++) {
 
-			// Varataan tilaa ainoastaan riveille,
-			// joilla on numerolle enemm‰n kuin 1 paikka ja v‰hemm‰n kuin 9 paikkaa (2-8)
+			// Allocate space for bonded sets with 2-8 possible squares, not 1 or 9, hence -2
 			int NumberOfBondedSets[MAX-2];
 			Set BondedSets[MAX-2][MAX];
 			for (int y = 0; y < MAX-2; y++)
 				NumberOfBondedSets[y] = 0;
 
 
-			// Tehd‰‰n mahdollisten paikkojen mukaan taulukko,
-			// josta voidaan etsi‰ onko mahdolliset ruudut samoilla vaaka- tai pystyriveill‰
+			// Create helper tables we can use to search if squares are on same horizontal or vertical line
 			for (int set = 0; set < MAX; set++) {
 				Set tmpSet = sets[i*MAX + set].GetPossibilitiesFor(number);
 				int section = tmpSet.Filled()-2;
@@ -419,7 +416,7 @@ bool Solver::XWingAndSwordfish() {
 			// X-Wing
 			///////////////////////
 			for (int y = 0; y < MAX-2; y++) {
-				if (NumberOfBondedSets[y] == y+2) {	// mahdollisuuksia rivill‰ yht‰ monta kuin rivej‰
+				if (NumberOfBondedSets[y] == y+2) {	// as many possibilities on line as there are total lines
 
 					bool lineV;
 					bool lineH;
@@ -433,7 +430,7 @@ bool Solver::XWingAndSwordfish() {
 						lineH = true;
 					}
 
-					// Selvitet‰‰n kumman tyyppisen linjan ruudut muodostavat (jos muodostavat)
+					// Figure out which type of line (horizontal vs vertical) do the possibilities form, if any
 					for (int set = 1; set < NumberOfBondedSets[y]; set++) {
 						if		(i == 0 && !BondedSets[y][0].LocationsLine(&BondedSets[y][set],false)) {
 							lineV = false;
@@ -456,12 +453,12 @@ bool Solver::XWingAndSwordfish() {
 								lineToBlock = BondedSets[y][0].GetSquare(square)->HLine()->GetPossibilitiesFor(number);
 
 
-							// Tarkistetaan onko rivill‰ blockattavaa
+							// Check if there is anything to block on the line
 							if (lineToBlock.Filled() > NumberOfBondedSets[y]) {
 
 								for (int bSquare = 0; bSquare < lineToBlock.Filled(); bSquare++) {
 
-									// ƒl‰ blockkaa rivilt‰ ruutuja, jotka muodostivat X-Wingin
+									// ... But don't block squares on the line that formed the X-Wing
 									bool needsBlocking = true;
 										
 									for (int set = 0; set < NumberOfBondedSets[y]; set++) {
@@ -519,7 +516,7 @@ bool Solver::XWingAndSwordfish() {
 					for (set[1] = 0; set[1] < sf_setsNum; set[1]++) {
 						if (set[0] != set[1]) {
 
-							Set used = Set();	// linkityksess‰ k‰ytetyt ruudut
+							Set used = Set();
 
 							if ( sf_sets[set[0]]->LinksWith( sf_sets[set[1]], vertically, &used ) ) {
 	
@@ -533,7 +530,7 @@ bool Solver::XWingAndSwordfish() {
 										if (sf_sets[set[2]]->LinksWith( sf_sets[set[0]], vertically, &used_tmp ) &&
 											sf_sets[set[2]]->LinksWith( sf_sets[set[1]], vertically, &used_tmp ) ) {
 												
-											// tarkista ett‰ settien kaikki ruudut ovat mukana linkiss‰
+											// Check all of set's squares are included in the link
 											if (used_tmp.Filled() ==	sf_sets[set[0]]->Filled() + 
 																		sf_sets[set[1]]->Filled() + 
 																		sf_sets[set[2]]->Filled()) {
@@ -579,21 +576,22 @@ bool Solver::XWingAndSwordfish() {
 /////////////////
 bool Solver::FindNakedSetRecursive(Set *set, vector<int>* used_numbers, Set* used_squares, Square* square) {
 
-	// lis‰‰ ruutu ja sen numerot listaan
+	// Add the square to the link
 	used_squares->Add(square);
 
+	// Add square' numbers
 	for (int i = 1; i <= MAX; i++) {
 		if (square->CanHave(i))
 			used_numbers->push_back(i);
 	}
 
-	// laske eri numeroiden m‰‰r‰ used_numbers vektorissa
 	int differentNumbers = 0;
 	bool numbers[MAX];
 
 	for (int i = 0; i < MAX; i++)
 		numbers[i] = false;
 
+	// Count the amount of unique numbers
 	for (unsigned int i = 0; i < used_numbers->size(); i++) {
 		int index = used_numbers->at(i)-1;
 		if (!numbers[index]) {
@@ -602,18 +600,18 @@ bool Solver::FindNakedSetRecursive(Set *set, vector<int>* used_numbers, Set* use
 		}
 	}
 
-	// jos ruutuja on yht‰ monta kuin eri numeroita, naked linkki on lˆytynyt
+	// If there are as many squares as there are unique numbers, we have found a naked set
 	if (used_squares->Filled() == differentNumbers)
 		return true;
 
-	// lis‰‰ linkkiin jokin uusi ruutu, jossa on jokin jo setin numeroista
+	// Add a square to the link containing a number from the set
 	else {
 		bool ok = false;
 		for (int i = 0; i < set->Filled(); i++) {
-			Square* ruutu = set->GetSquare(i);
-			if (!used_squares->HasSquare(ruutu)) {
-				if (ruutu->CanHaveAny(used_numbers)) {
-					if (FindNakedSetRecursive( set, used_numbers, used_squares, ruutu)) {
+			Square* set_square = set->GetSquare(i);
+			if (!used_squares->HasSquare(set_square)) {
+				if (set_square->CanHaveAny(used_numbers)) {
+					if (FindNakedSetRecursive( set, used_numbers, used_squares, set_square)) {
 						ok = true;
 						break;
 					}

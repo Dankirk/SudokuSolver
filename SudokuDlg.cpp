@@ -366,8 +366,7 @@ HCURSOR CSudokuDlg::OnQueryDragIcon()
 	return (HCURSOR) m_hIcon;
 }
 
-//ohjaa napin painallukset OnSquare() funktioon
-//ja syötä kyseisen napin numero funktioon
+// Handle all square clicks in one function, OnSquare()
 void CSudokuDlg::OnSquare1() { OnSquare(1); }
 void CSudokuDlg::OnSquare2() { OnSquare(2); }
 void CSudokuDlg::OnSquare3() { OnSquare(3); }
@@ -460,7 +459,7 @@ void CSudokuDlg::OnOK()
 		return;
 	}
 
-	// Tallenna taulukko SudokuLast.sav tiedostoon uudelleen tekemistä varten
+	// Save the board to SudokuLast.sav, so we can return to the unsolved state
 	if (bOnce == FALSE) {
 		ofstream WriteLast("SudokuLast.sav",ios::out|ios::binary);
 		if (WriteLast.is_open() == TRUE) {
@@ -525,31 +524,30 @@ void CSudokuDlg::EasyMode(bool forcereset) {
 void CSudokuDlg::OnSquare(int iSquare) {
 	UpdateData(TRUE);
 
-	//alustuksia
 	CString cLine;
 	cLine.Format("%d",iSelection);
 	bPlaced = TRUE;
 
-	if (iSelection == 0) m_Square[iSquare].SetWindowText(" ");	// Tyhjennä ruutu, jos valittuna numerona on 0
-	else m_Square[iSquare].SetWindowText(cLine);				// Aseta valittu numero ruutuun
+	if (iSelection == 0) m_Square[iSquare].SetWindowText(" ");	// 0 empties the square
+	else m_Square[iSquare].SetWindowText(cLine);				// Otherwise put the number on the square
 
 	UpdateData(FALSE);
 
 	EasyMode();
 }
 
-// Lataa Sudoku taulukko, joka oli ennen "Solve":n painamista
+// Loads SudokuLast.sav we saved just before solving
 void CSudokuDlg::OnLoadLast() 
 { 
 	char LastLine[100] = "";
 
-	// Varmista käyttäjältä
+	// Confirm with user first
 	if (bPlaced == TRUE) {
 		if (MessageBox("You have modified the Sudoku table. Your modifications will be lost if you load last board.\n"
 					  "Are you sure you want to load last board?","Sudoku",MB_YESNO|MB_ICONQUESTION) == IDNO) return;
 	}
 
-	// Varmista, että tallennus löytyy
+	// Check the save exists
 	ifstream ifLoadLast("SudokuLast.sav",ios::in|ios::binary);
 	if (ifLoadLast.is_open() == FALSE) {
 		MessageBox("No last board found","Sudoku",MB_OK);
@@ -557,7 +555,7 @@ void CSudokuDlg::OnLoadLast()
 	}
 	bPlaced = FALSE;
 
-	// Lataa taulukko tiedostosta
+	// Load the board
 	for (int iSquare = 1; iSquare <= MAX*MAX; iSquare++) { ;
 		ifLoadLast.getline(LastLine,sizeof(LastLine));
 		if (atoi(LastLine) >= 1 && atoi(LastLine) <= MAX) m_Square[iSquare].SetWindowText(LastLine);
@@ -565,7 +563,7 @@ void CSudokuDlg::OnLoadLast()
 			
 	}
 
-	// Sulje tiedosto
+	// Close the file
 	ifLoadLast.close();
 	
 	UpdateData(FALSE);
@@ -596,21 +594,22 @@ void CSudokuDlg::OnRadio7() { iSelection = 7; EasyMode(); }
 void CSudokuDlg::OnRadio8() { iSelection = 8; EasyMode(); }
 void CSudokuDlg::OnRadio9() { iSelection = 9; EasyMode(); }
 
-// Menun Exit nappi
+// Menu - Exit
 void CSudokuDlg::OnFileExit() 
 {
 	CDialog::OnOK();
 	
 }
 
-// Avaa Sudoku sivu
+// Menu - Help
 void CSudokuDlg::OnFileHelp() 
 {
-	ShellExecute(NULL,"open","iexplore","http://www.sudoku.org.uk",NULL,SW_SHOW);
+	// Open a Sudoku website
+	ShellExecute(NULL, "open", "http://www.sudoku.org.uk", NULL, NULL, SW_SHOWNORMAL);
 	
 }
 
-// Menun Save / Load nappi
+// Menu - Save / Load
 void CSudokuDlg::OnFileSaveload() 
 {
 	UpdateData(TRUE);
