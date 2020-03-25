@@ -116,7 +116,13 @@
 #define ID_FILE_CLEAR                   32774
 #define ID_FILE_EASYMODE                32776
 #define ID_FILE_SETTINGS                32777
+
+/*
+#ifndef CREATEPROCESS_MANIFEST_RESOURCE_ID
 #define CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "YourApp.exe.manifest"
+#endif
+*/
+
 
 // Next default values for new objects
 // 
