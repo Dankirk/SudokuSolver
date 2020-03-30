@@ -516,7 +516,7 @@ bool Solver::XWingAndSwordfish() {
 
 												for (int j = 0; j < 3; j++) {
 													for (int k = 0; k < sf_sets[set[j]]->Filled(); k++) {
-														update = sf_sets[set[j]]->GetSquare(k)->Line(vertically)->BlockAllExcluding(&used_tmp,number) || update;
+														update = sf_sets[set[j]]->GetSquare(k)->Line(horizontally)->BlockAllExcluding(&used_tmp,number) || update;
 													}
 
 												}
