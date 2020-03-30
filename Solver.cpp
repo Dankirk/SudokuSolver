@@ -393,7 +393,8 @@ bool Solver::XWingAndSwordfish() {
 	for (int number = 1; number <= MAX; number++) {
 
 		// Only horizontal and vertical lines need to be checked (not the big squares)
-		for (int i = 0; i <= 1; i++) {
+		// Use 'horizontally' as a boolean to differentiate horizontal vs vertical lining
+		for (unsigned int horizontally = 0; horizontally <= 1; horizontally++) {
 
 			// Allocate space for bonded sets with 2-8 possible squares, not 1 or 9, hence -2
 			int NumberOfBondedSets[MAX-2];
@@ -404,7 +405,7 @@ bool Solver::XWingAndSwordfish() {
 
 			// Create helper tables we can use to search if squares are on same horizontal or vertical line
 			for (int set = 0; set < MAX; set++) {
-				Set tmpSet = sets[i*MAX + set].GetPossibilitiesFor(number);
+				Set tmpSet = sets[horizontally*MAX + set].GetPossibilitiesFor(number);
 				int section = tmpSet.Filled()-2;
 				if (section >= 0 && section < MAX-2) {
 					BondedSets[ section ][ NumberOfBondedSets [ section ] ] = tmpSet;
@@ -418,40 +419,21 @@ bool Solver::XWingAndSwordfish() {
 			for (int y = 0; y < MAX-2; y++) {
 				if (NumberOfBondedSets[y] == y+2) {	// as many possibilities on line as there are total lines
 
-					bool lineV;
-					bool lineH;
-
-					if (i == 0) {
-						lineV = true;
-						lineH = false;
-					}
-					else {
-						lineV = false;
-						lineH = true;
-					}
+					bool linesUp = true;
 
 					// Figure out which type of line (horizontal vs vertical) do the possibilities form, if any
 					for (int set = 1; set < NumberOfBondedSets[y]; set++) {
-						if		(i == 0 && !BondedSets[y][0].LocationsLine(&BondedSets[y][set],false)) {
-							lineV = false;
-							break;
-						}
-						else if (i == 1 && !BondedSets[y][0].LocationsLine(&BondedSets[y][set],true )) {
-							lineH = false;
+						if (!BondedSets[y][0].LocationsLine(&BondedSets[y][set], horizontally)) {
+							linesUp = false;
 							break;
 						}
 					} 
 
-					if (lineV || lineH) {
+					if (linesUp) {
 
 						for (int square = 0; square < NumberOfBondedSets[y]; square++) {
 
-							Set lineToBlock;
-							if (lineV)
-								lineToBlock = BondedSets[y][0].GetSquare(square)->VLine()->GetPossibilitiesFor(number);
-							else
-								lineToBlock = BondedSets[y][0].GetSquare(square)->HLine()->GetPossibilitiesFor(number);
-
+							Set lineToBlock = BondedSets[y][0].GetSquare(square)->Line(horizontally)->GetPossibilitiesFor(number);
 
 							// Check if there is anything to block on the line
 							if (lineToBlock.Filled() > NumberOfBondedSets[y]) {
@@ -489,12 +471,7 @@ bool Solver::XWingAndSwordfish() {
 			/////////////
 			if (!update && NumberOfBondedSets[0] + NumberOfBondedSets[1] >= 3) {
 						
-				bool vertically;
-
-				if (i == 0)
-					vertically = true;
-				else
-					vertically = false;
+				bool vertically = (horizontally == 0);
 						
 				int sf_setsNum = NumberOfBondedSets[0] + NumberOfBondedSets[1];
 				Set** sf_sets = new Set*[sf_setsNum];
@@ -539,13 +516,7 @@ bool Solver::XWingAndSwordfish() {
 
 												for (int j = 0; j < 3; j++) {
 													for (int k = 0; k < sf_sets[set[j]]->Filled(); k++) {
-
-														if (vertically) {
-															update = sf_sets[set[j]]->GetSquare(k)->VLine()->BlockAllExcluding(&used_tmp,number) || update;
-														}
-														else {
-															update = sf_sets[set[j]]->GetSquare(k)->HLine()->BlockAllExcluding(&used_tmp,number) || update;
-														}
+														update = sf_sets[set[j]]->GetSquare(k)->Line(vertically)->BlockAllExcluding(&used_tmp,number) || update;
 													}
 
 												}

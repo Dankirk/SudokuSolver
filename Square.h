@@ -21,6 +21,7 @@ class Square {
 		int GetNumber();
 		int CanHaveCount();
 		int GetID();
+		Set * Line(bool horizontally);
 		Set * VLine();
 		Set * HLine();
 		Set * BigSquare();

@@ -51,7 +51,7 @@ int Set::Filled() {
 	return filled;
 }
 
-// Locations match if all squares are also in toBeCompared set
+// Locations match if sets squares are identical
 bool Set::LocationsMatch(Set* toBeCompared) {
 
 	if (toBeCompared == NULL) {
@@ -70,7 +70,7 @@ bool Set::LocationsMatch(Set* toBeCompared) {
 	return false;
 }
 
-// Locations overlap if a square is also in toBeCompared set
+// Locations overlap if the sets squares are also in toBeCompared set
 bool Set::LocationsOverlap(Set* toBeCompared) {
 
 	if (toBeCompared == NULL || toBeCompared == this) {
