@@ -103,8 +103,8 @@ int Square::GetID() {
 	return id;
 }
 
-Set* Square::Line(bool vertical) {
-	return vertical ? VLine() : HLine();
+Set* Square::Line(bool horizontally) {
+	return horizontally ? HLine() : VLine();
 }
 
 Set* Square::VLine() {
